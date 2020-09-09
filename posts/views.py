@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from rest_framework.generics import ListAPIView
 
-# Create your views here.
+from .models import Post
+
+class PostListAPIView(ListAPIView):
+    queryset = Post.objects.all()
+
+
+
