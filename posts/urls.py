@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import PostListAPIView
+from .views import (
+    PostListAPIView, PostDetailsAPIView,
+    PostUpdateAPIView, PostDeleteAPIView
+    )
 
 urlpatterns = [
     path('',PostListAPIView.as_view() ),
+    path('<str:slug>/', PostDetailsAPIView.as_view()),
+    path('<str:slug>/edit/', PostUpdateAPIView.as_view()),
+    path('<str:slug>/delete/', PostDeleteAPIView.as_view())
 ]
