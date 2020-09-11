@@ -3,8 +3,9 @@ from .models import Post
 
 class PostCreateSerializer(ModelSerializer):
     class Meta:
+        model = Post
         fields = [
-            
+
             'title',
             'content'
         ]
