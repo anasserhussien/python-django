@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -6,6 +7,7 @@ from django.utils.text import slugify
 # Create your models here.
 
 class Post(models.Model):
+    user = models.models.ForeignKey(settings.AUTH_USER_Model, on_delete=models.CASCADE)
     title = models.CharField(max_length = 120)
     slug = models.SlugField(unique = True)
     content = models.TextField()
