@@ -24,7 +24,7 @@ from .views import (
 urlpatterns = [
     path('',PostListAPIView.as_view() ),
     path('create/',PostCreateAPIView.as_view() ),
-    path('<str:slug>/', PostDetailsAPIView.as_view()),
+    path('<str:slug>/', PostDetailsAPIView.as_view(), name ='list'),
     path('<str:slug>/edit/', PostUpdateAPIView.as_view()),
     path('<str:slug>/delete/', PostDeleteAPIView.as_view())
 ]

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from rest_framework.generics import (
     ListAPIView, 
@@ -10,8 +11,18 @@ from rest_framework.generics import (
 from .models import Post
 from .serializers import (
     PostSerializer, 
-    PostCreateSerializer
+    PostCreateSerializer,
+    PostListSerializer
 )
+
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAdminUser,
+    IsAuthenticatedOrReadOnly
+)
+
+from .permissions import IsOwnerOrReadOnly
 
 
 class PostCreateAPIView(CreateAPIView):
@@ -26,7 +37,21 @@ class PostCreateAPIView(CreateAPIView):
 # List all the posts
 class PostListAPIView(ListAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = PostListSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        query_list = Post.objects.all()
+        query = self.request.GET.get("q")
+        # sample query /posts/?q=test
+
+        if query:
+            query_list = query_list.filter(
+                Q(title__icontains = query) |
+                Q(content__icontains = query) |
+                Q(user__username__icontains = query)
+            ).distinct()
+            return query_list  
+
 
 # Get detail of a specific post
 class PostDetailsAPIView(RetrieveAPIView):
