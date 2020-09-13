@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from .views import *
+
 urlpatterns = [
-    #path('',PostListAPIView.as_view() ),
+    path('<int:pk>/',CommentDetailsAPIView.as_view() ),
 
 ]
