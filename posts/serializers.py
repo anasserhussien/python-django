@@ -1,4 +1,10 @@
-from rest_framework.serializers import ModelSerializer, HyperlinkedIdentityField
+from rest_framework.serializers import(
+
+ ModelSerializer, 
+ HyperlinkedIdentityField,
+ SerializerMethodField
+
+)
 from .models import Post
 
 
@@ -31,6 +37,7 @@ class PostListSerializer(ModelSerializer):
         view_name = 'list',
         lookup_field = 'slug'
     )
+    user = SerializerMethodField()
 
     class Meta:
         model = Post
@@ -42,3 +49,8 @@ class PostListSerializer(ModelSerializer):
         #     'content',
 
         # ]
+    def get_user(self, object):
+        return object.user.username
+    # this method is based on SerializerMethodField
+    # which is coustomize some fields
+    # before sending to the views
