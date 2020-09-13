@@ -50,7 +50,7 @@ class PostListAPIView(ListAPIView):
                 Q(content__icontains = query) |
                 Q(user__username__icontains = query)
             ).distinct()
-            return query_list  
+        return query_list  
 
 
 # Get detail of a specific post
