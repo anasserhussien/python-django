@@ -12,3 +12,11 @@ class CommentSerializer(ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
+
+class CommentEditSerializer(ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = [
+            'content'
+        ]

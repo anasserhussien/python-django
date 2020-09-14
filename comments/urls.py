@@ -20,6 +20,7 @@ from .views import *
 
 urlpatterns = [
     path('<int:pk>/',CommentDetailsAPIView.as_view() ),
-    path('create/',CommentCreateAPIView.as_view() )
+    path('create/',CommentCreateAPIView.as_view() ),
+    path('<int:pk>/edit/',CommentEditAPIView.as_view() )
 
 ]

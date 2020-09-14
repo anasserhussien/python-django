@@ -10,6 +10,15 @@ from rest_framework.generics import (
     CreateAPIView
 )
 
+from rest_framework.mixins import (
+    DestroyModelMixin,
+    UpdateModelMixin
+)
+
+from .permissions import *
+from rest_framework.permissions import (
+    IsAuthenticated
+)
 
 # Create your views here.
 
@@ -20,3 +29,19 @@ class CommentDetailsAPIView(RetrieveAPIView):
 class CommentCreateAPIView(CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class CommentEditAPIView(RetrieveAPIView, DestroyModelMixin, UpdateModelMixin):
+    queryset = Comment.objects.all()
+    serializer_class = CommentEditSerializer
+    permission_classes = [
+        IsOwnerOrReadOnly
+    ]
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+    
+    
