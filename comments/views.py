@@ -16,3 +16,7 @@ from rest_framework.generics import (
 class CommentDetailsAPIView(RetrieveAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+class CommentCreateAPIView(CreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
