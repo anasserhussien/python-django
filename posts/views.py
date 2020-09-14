@@ -12,7 +12,8 @@ from .models import Post
 from .serializers import (
     PostSerializer, 
     PostCreateSerializer,
-    PostListSerializer
+    PostListSerializer,
+    PostDetailSerializer
 )
 
 from rest_framework.permissions import (
@@ -56,7 +57,7 @@ class PostListAPIView(ListAPIView):
 # Get detail of a specific post
 class PostDetailsAPIView(RetrieveAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = PostDetailSerializer
     lookup_field = "slug"
 
 # Update a specific post

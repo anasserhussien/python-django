@@ -6,6 +6,10 @@ from rest_framework.serializers import(
 
 )
 from .models import Post
+from comments.models import Comment
+from comments.serializers import CommentSerializer
+
+
 
 
 class PostCreateSerializer(ModelSerializer):
@@ -54,3 +58,29 @@ class PostListSerializer(ModelSerializer):
     # this method is based on SerializerMethodField
     # which is coustomize some fields
     # before sending to the views
+
+
+
+class PostDetailSerializer(ModelSerializer):
+
+    comments = SerializerMethodField()
+    class Meta:
+        model = Post
+        fields = "__all__"
+
+        # fields = [
+        #     'title',
+        #     'slug',
+        #     'content',
+
+        # ]
+
+    def get_comments(self, object):
+        qs = Comment.objects.filter(
+            post = object
+        )
+        return CommentSerializer(qs, many = True).data
+
+
+
+    
