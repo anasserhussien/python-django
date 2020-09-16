@@ -71,3 +71,30 @@ class UserCreateSerializer(ModelSerializer):
         user_obj.save()
         return validated_data
 
+
+
+class UserLoginSerializer(ModelSerializer):
+
+    # why adding email while it's already added by default?
+    # to make it required field
+    username = serializers.CharField()
+    token = serializers.CharField(
+        allow_blank = True,
+        read_only = True
+    )
+    email = serializers.EmailField(
+    label = "Email Adress"
+    )
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'email',
+            'password',
+            'token'
+        ]
+
+        extra_kwargs = {"password":
+                    {
+                        "write_only": True
+                    }}
