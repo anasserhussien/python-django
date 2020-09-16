@@ -12,6 +12,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.core.exceptions import ValidationError 
 
+from django.db.models import Q
 
 class UserCreateSerializer(ModelSerializer):
 
@@ -82,14 +83,14 @@ class UserLoginSerializer(ModelSerializer):
         allow_blank = True,
         read_only = True
     )
-    email = serializers.EmailField(
-    label = "Email Adress"
-    )
+    # email = serializers.EmailField(
+    # label = "Email Adress"
+    # )
     class Meta:
         model = User
         fields = [
             'username',
-            'email',
+            #'email',
             'password',
             'token'
         ]
@@ -98,3 +99,21 @@ class UserLoginSerializer(ModelSerializer):
                     {
                         "write_only": True
                     }}
+
+    def validate(self, data):
+        user = User.objects.filter(
+            username = data.get("username")
+        ).distinct()
+
+        if user.exists() and user.count() ==1:
+            user = user.first()
+        else:
+            raise ValidationError("The username you entered is not exist")
+        
+
+        if not user.check_password(data.get("password")):
+            raise ValidationError("Incorrect password please check again")
+
+        data["token"] = "Random Token"
+
+        return data
