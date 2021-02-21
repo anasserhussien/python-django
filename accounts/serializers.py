@@ -42,8 +42,8 @@ class UserCreateSerializer(ModelSerializer):
                         "write_only": True
                     }}
 
-    def validate(self, data):
-        pass
+    # def validate(self, data):
+    #     pass
         # we can validate anything here also
 
     def validate_email(self, value):
